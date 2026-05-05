@@ -5,6 +5,7 @@ on:
     paths:
       - package.json
       - bun.lock
+      - .github/workflows/regenerate-prompts.yml
 
 permissions:
   contents: write
