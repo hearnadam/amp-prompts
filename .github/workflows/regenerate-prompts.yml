@@ -1,0 +1,47 @@
+name: Regenerate prompts on amp bump
+
+# Triggers on Dependabot PRs that bump @sourcegraph/amp. Runs the extractor
+# against the newly-installed bundle and pushes the regenerated prompt files
+# to the same PR branch so the version bump and prompt diff land together.
+
+on:
+  pull_request:
+    paths:
+      - package.json
+      - bun.lock
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regenerate:
+    if: contains(github.event.pull_request.labels.*.name, 'amp-bump') || github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run extract
+
+      - name: Commit regenerated prompts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- prompts amp-prompts.md; then
+            echo "No prompt changes."
+            exit 0
+          fi
+          AMP_VERSION=$(node -p "require('./node_modules/@sourcegraph/amp/package.json').version")
+          git add prompts amp-prompts.md
+          git commit -m "Regenerate prompts for @sourcegraph/amp@${AMP_VERSION}"
+          git push
