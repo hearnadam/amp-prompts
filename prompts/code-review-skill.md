@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:263` (symbol `C$4`)_
+_Source: `dist/main.js:651` (symbol `nx6`)_
 
 # Code Review Skill
 
@@ -16,19 +16,17 @@ Use this skill when asked to perform a code review or a review of changes to cod
 
 ## After the Tool Completes
 
-Display the issues from the result in this EXACT format:
+Display the issues as a concise markdown numbered list. Each item is one line in this format:
 
-### Code Review Results
+1. source (severity) - [file-basename](file-path#range): one sentence summary
 
-**X issues found across Y checks**
+Example:
 
-| # | Severity | Source | Location | Problem | Why | Fix |
-|---|----------|--------|----------|---------|-----|-----|
-| 1 | CRITICAL | bigo | file:line | problem text | why text | fix text |
-| 2 | HIGH | general | file:line | problem text | why text | fix text |
-| 3 | MEDIUM | security | file:line | problem text | why text | fix text |
-| 4 | LOW | general | file:line | problem text | why text | fix text |
+1. security (critical) - [auth.ts](src/auth/auth.ts#L10-L15): JWT secret is hardcoded
+2. general (high) - [server.ts](src/server.ts#L42): Missing error handling on database connection
 
-**Checks performed:** list each check name and patterns it looked for
+If no issues were found, say so briefly.
 
-Then ask: "Would you like me to fix any of these issues? (e.g., 'fix issue #1' or 'fix issues #2 and #3')". Number issues sequentially starting from 1.
+Mention which checks were run (if any) and their results.
+
+If issues were found, offer to fix them and make it clear how to reply.

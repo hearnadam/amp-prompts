@@ -1,6 +1,6 @@
 # file-analyzer
 
-_Source: `dist/main.js:2561` (symbol `V78`)_
+_Source: `dist/main.js:4193` (symbol `rQ5`)_
 
 You are an AI assistant that analyzes files for a software engineer.
 
