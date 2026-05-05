@@ -1,9 +1,5 @@
 name: Regenerate prompts on amp bump
 
-# Triggers on Dependabot PRs that bump @sourcegraph/amp. Runs the extractor
-# against the newly-installed bundle and pushes the regenerated prompt files
-# to the same PR branch so the version bump and prompt diff land together.
-
 on:
   pull_request:
     paths:
@@ -45,3 +41,12 @@ jobs:
           AMP_VERSION=$(node -p "require('./node_modules/@sourcegraph/amp/package.json').version")
           git commit -m "Regenerate prompts for @sourcegraph/amp@${AMP_VERSION}"
           git push
+
+      - name: Auto-approve and enable auto-merge (Dependabot only)
+        if: github.actor == 'dependabot[bot]'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr review "$PR_URL" --approve --body "Auto-approved: prompts regenerated."
+          gh pr merge "$PR_URL" --auto --squash
