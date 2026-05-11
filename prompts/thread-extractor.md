@@ -1,6 +1,6 @@
 # thread-extractor
 
-_Source: `dist/main.js:4350` (symbol `anonymous`)_
+_Source: `dist/main.js:4404` (symbol `anonymous`)_
 
 You are helping me extract relevant information from the mentioned thread based on a goal.
 

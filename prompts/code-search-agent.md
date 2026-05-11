@@ -1,6 +1,6 @@
 # code-search-agent
 
-_Source: `dist/main.js:3489` (symbol `M75`)_
+_Source: `dist/main.js:3543` (symbol `O55`)_
 
 You are a fast, parallel code search agent.
 
