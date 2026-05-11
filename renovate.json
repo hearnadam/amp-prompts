@@ -4,8 +4,11 @@
   "packageRules": [
     {
       "matchPackageNames": ["@sourcegraph/amp"],
-      "automerge": true,
-      "labels": ["amp-bump"]
+      "allowedVersions": "/^0\\.0\\.\\d+-g[0-9a-f]+$/",
+      "ignoreUnstable": false,
+      "versioning": "regex:^(?<major>0)\\.(?<minor>0)\\.(?<patch>\\d+)-(?<prerelease>g[0-9a-f]+)$",
+      "labels": ["amp-bump"],
+      "automerge": true
     }
   ]
 }
