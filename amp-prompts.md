@@ -1,7 +1,7 @@
 # Amp CLI Extracted Prompts
 
-Source: /Users/akinventor/Documents/repos/amp-prompts/node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1778501018-gf409dd
+Source: /home/runner/work/amp-prompts/amp-prompts/node_modules/@sourcegraph/amp/dist/main.js
+Package: @sourcegraph/amp@0.0.1778822060-ge6e4f6
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -22,10 +22,10 @@ Notes:
 - [amp-rush-mode](prompts/amp-rush-mode.md) — line 2295
 - [amp-base](prompts/amp-base.md) — line 2371
 - [agents-md-init](prompts/agents-md-init.md) — line 2420
-- [subagent-summary](prompts/subagent-summary.md) — line 2988
-- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3392
-- [code-search-agent](prompts/code-search-agent.md) — line 3543
-- [librarian](prompts/librarian.md) — line 4153
-- [file-analyzer](prompts/file-analyzer.md) — line 4247
-- [oracle](prompts/oracle.md) — line 4321
-- [thread-extractor](prompts/thread-extractor.md) — line 4404
+- [subagent-summary](prompts/subagent-summary.md) — line 2990
+- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3395
+- [code-search-agent](prompts/code-search-agent.md) — line 3546
+- [librarian](prompts/librarian.md) — line 4156
+- [file-analyzer](prompts/file-analyzer.md) — line 4250
+- [oracle](prompts/oracle.md) — line 4324
+- [thread-extractor](prompts/thread-extractor.md) — line 4407

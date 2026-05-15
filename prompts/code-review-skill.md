@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:684` (symbol `fT6`)_
+_Source: `dist/main.js:684` (symbol `Dk6`)_
 
 # Code Review Skill
 

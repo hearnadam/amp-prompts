@@ -1,6 +1,6 @@
 # amp-pragmatic
 
-_Source: `dist/main.js:1115` (symbol `bZ4`)_
+_Source: `dist/main.js:1115` (symbol `nZ4`)_
 
 You are Amp. You and the user share the same workspace and collaborate to achieve the user's goals.
 
