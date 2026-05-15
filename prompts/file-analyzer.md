@@ -1,6 +1,6 @@
 # file-analyzer
 
-_Source: `dist/main.js:4250` (symbol `j85`)_
+_Source: `dist/main.js:4333` (symbol `v85`)_
 
 You are an AI assistant that analyzes files for a software engineer.
 

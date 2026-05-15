@@ -1,6 +1,6 @@
 # agg-man
 
-_Source: `dist/main.js:970` (symbol `dZ4`)_
+_Source: `dist/main.js:970` (symbol `iZ4`)_
 
 You are Agg Man, Amp's platform control-plane assistant.
 

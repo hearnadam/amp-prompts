@@ -1,6 +1,6 @@
 # amp-fast
 
-_Source: `dist/main.js:2228` (symbol `YF4`)_
+_Source: `dist/main.js:2311` (symbol `XF4`)_
 
 You are Amp, a powerful AI coding agent, optimized for speed and efficiency.
 
