@@ -52,7 +52,9 @@ labelled `amp-bump`.
 The workflow at `.github/workflows/regenerate-prompts.yml` also listens for
 `amp-bump` PRs that touch `package.json` / `bun.lock`, runs `bun run extract`,
 and pushes any regenerated prompt files back onto the same PR branch. This
-keeps manual amp-bump PRs and workflow-created amp-bump PRs consistent.
+keeps manual amp-bump PRs and workflow-created amp-bump PRs consistent. It
+also enables auto-merge for `amp-bump` PRs opened by `github-actions[bot]` or
+`hearnadam`.
 
 ## Layout
 

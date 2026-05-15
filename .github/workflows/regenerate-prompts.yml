@@ -49,11 +49,19 @@ jobs:
           git commit -m "Regenerate prompts for @sourcegraph/amp@${AMP_VERSION}"
           git push
 
-      - name: Auto-approve and enable auto-merge
-        if: github.actor == 'dependabot[bot]'
+      - name: Auto-approve amp bump PR
+        if: github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
-          gh pr review "$PR_URL" --approve --body "Auto-approved: prompts regenerated."
+          gh pr review "$PR_URL" --approve --body "Auto-approved: amp-bump PR after prompt regeneration check."
+
+      - name: Enable auto-merge
+        if: github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
           gh pr merge "$PR_URL" --auto --squash
