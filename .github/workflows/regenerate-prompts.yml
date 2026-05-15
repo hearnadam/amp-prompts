@@ -2,10 +2,16 @@ name: Regenerate prompts on amp bump
 
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
     paths:
       - package.json
       - bun.lock
       - .github/workflows/regenerate-prompts.yml
+      - .github/workflows/update-amp.yml
 
 permissions:
   contents: write
@@ -13,7 +19,7 @@ permissions:
 
 jobs:
   regenerate:
-    if: contains(github.event.pull_request.labels.*.name, 'amp-bump') || github.actor == 'dependabot[bot]'
+    if: contains(github.event.pull_request.labels.*.name, 'amp-bump')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -43,7 +49,7 @@ jobs:
           git commit -m "Regenerate prompts for @sourcegraph/amp@${AMP_VERSION}"
           git push
 
-      - name: Auto-approve and enable auto-merge (Dependabot only)
+      - name: Auto-approve and enable auto-merge
         if: github.actor == 'dependabot[bot]'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
