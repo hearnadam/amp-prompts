@@ -1,7 +1,7 @@
 # Amp CLI Extracted Prompts
 
 Source: /home/runner/work/amp-prompts/amp-prompts/node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1778822060-ge6e4f6
+Package: @sourcegraph/amp@0.0.1778837190-g36e243
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -12,20 +12,21 @@ Notes:
 - [code-review-skill](prompts/code-review-skill.md) — line 684
 - [agg-man](prompts/agg-man.md) — line 970
 - [amp-autonomous](prompts/amp-autonomous.md) — line 1029
-- [amp-pragmatic](prompts/amp-pragmatic.md) — line 1115
-- [pair-programming](prompts/pair-programming.md) — line 1273
-- [amp-autonomous-2](prompts/amp-autonomous-2.md) — line 1369
-- [amp-classic](prompts/amp-classic.md) — line 1489
-- [amp-guardrails](prompts/amp-guardrails.md) — line 1757
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 1997
-- [amp-fast](prompts/amp-fast.md) — line 2228
-- [amp-rush-mode](prompts/amp-rush-mode.md) — line 2295
-- [amp-base](prompts/amp-base.md) — line 2371
-- [agents-md-init](prompts/agents-md-init.md) — line 2420
-- [subagent-summary](prompts/subagent-summary.md) — line 2990
-- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3395
-- [code-search-agent](prompts/code-search-agent.md) — line 3546
-- [librarian](prompts/librarian.md) — line 4156
-- [file-analyzer](prompts/file-analyzer.md) — line 4250
-- [oracle](prompts/oracle.md) — line 4324
-- [thread-extractor](prompts/thread-extractor.md) — line 4407
+- [amp-pragmatic](prompts/amp-pragmatic.md) — line 1124
+- [pair-programming](prompts/pair-programming.md) — line 1282
+- [amp-autonomous-2](prompts/amp-autonomous-2.md) — line 1378
+- [amp-classic](prompts/amp-classic.md) — line 1572
+- [amp-guardrails](prompts/amp-guardrails.md) — line 1840
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 2080
+- [amp-fast](prompts/amp-fast.md) — line 2311
+- [amp-rush-mode](prompts/amp-rush-mode.md) — line 2378
+- [amp-base](prompts/amp-base.md) — line 2454
+- [agents-md-init](prompts/agents-md-init.md) — line 2503
+- [subagent-summary](prompts/subagent-summary.md) — line 3073
+- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3478
+- [code-search-agent](prompts/code-search-agent.md) — line 3629
+- [librarian](prompts/librarian.md) — line 4239
+- [file-analyzer](prompts/file-analyzer.md) — line 4333
+- [oracle](prompts/oracle.md) — line 4407
+- [thread-extractor](prompts/thread-extractor.md) — line 4490
+- [task-worker-role](prompts/task-worker-role.md) — line 4593
