@@ -43,25 +43,26 @@ The script writes:
 
 ## Bumping Amp
 
-`@sourcegraph/amp` is pinned exactly in `package.json`. Dependabot is
-configured (`.github/dependabot.yml`) to open a PR daily whenever a new
-version is released. The PR is labelled `amp-bump`.
+`@sourcegraph/amp` is pinned exactly in `package.json`. The workflow at
+`.github/workflows/update-amp.yml` runs daily, can also be triggered manually,
+asks the npm registry for the latest published version with `bun pm view`,
+updates the exact pin with `bun add`, runs `bun run extract`, and opens a PR
+labelled `amp-bump`.
 
-The workflow at `.github/workflows/regenerate-prompts.yml` listens for those
-PRs (or anything else from `dependabot[bot]` that touches `package.json` /
-`bun.lock`), runs `bun run extract`, and pushes the regenerated `prompts/`
-directory back onto the same PR branch — so the version bump and the prompt
-diff land together as a single mergeable change.
+The workflow at `.github/workflows/regenerate-prompts.yml` also listens for
+`amp-bump` PRs that touch `package.json` / `bun.lock`, runs `bun run extract`,
+and pushes any regenerated prompt files back onto the same PR branch. This
+keeps manual amp-bump PRs and workflow-created amp-bump PRs consistent.
 
 ## Layout
 
 ```
-extract-amp-prompts.mjs   # the extractor
-package.json              # pins @sourcegraph/amp
-.github/dependabot.yml    # daily npm bumps for amp only
-.github/workflows/        # CI that regenerates prompts on bump PRs
-prompts/                  # generated; refreshed by the workflow
-amp-prompts.md            # generated index
+extract-amp-prompts.mjs       # the extractor
+package.json                  # pins @sourcegraph/amp
+.github/workflows/update-amp.yml
+.github/workflows/regenerate-prompts.yml
+prompts/                      # generated; refreshed by the workflow
+amp-prompts.md                # generated index
 ```
 
 ## Caveats
