@@ -1,6 +1,6 @@
 # agents-md-init
 
-_Source: `dist/main.js:2503` (symbol `WF4`)_
+_Source: `dist/main.js:2533` (symbol `TF4`)_
 
 Please analyze this codebase and create an AGENTS.md file containing:
 1. Build/lint/test commands - especially for running a single test

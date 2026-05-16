@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:684` (symbol `Wk6`)_
+_Source: `dist/main.js:684` (symbol `uk6`)_
 
 # Code Review Skill
 
