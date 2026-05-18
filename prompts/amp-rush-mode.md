@@ -1,6 +1,6 @@
 # amp-rush-mode
 
-_Source: `dist/main.js:2408` (symbol `LF4`)_
+_Source: `dist/main.js:2414` (symbol `JF4`)_
 
 You are Amp (Rush Mode), optimized for speed and efficiency.
 

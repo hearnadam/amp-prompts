@@ -1,6 +1,6 @@
 # oracle
 
-_Source: `dist/main.js:4453` (symbol `pa0`)_
+_Source: `dist/main.js:4390` (symbol `Fa0`)_
 
 You are the Oracle - an expert AI advisor with advanced reasoning capabilities.
 

@@ -1,6 +1,6 @@
 # amp-base
 
-_Source: `dist/main.js:2484` (symbol `jF4`)_
+_Source: `dist/main.js:2490` (symbol `ZF4`)_
 
 You are , a powerful AI coding agent.
 
