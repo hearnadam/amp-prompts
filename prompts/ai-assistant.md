@@ -1,6 +1,6 @@
 # ai-assistant
 
-_Source: `dist/main.js:4675` (symbol `U85`)_
+_Source: `dist/main.js:4675` (symbol `L85`)_
 
 You are an AI assistant that analyzes images for a software engineer.
 
