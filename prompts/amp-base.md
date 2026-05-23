@@ -1,6 +1,6 @@
 # amp-base
 
-_Source: `dist/main.js:2490` (symbol `EF4`)_
+_Source: `dist/main.js:2344` (symbol `uE4`)_
 
 You are , a powerful AI coding agent.
 
