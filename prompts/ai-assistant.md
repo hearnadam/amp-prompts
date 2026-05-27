@@ -1,6 +1,6 @@
 # ai-assistant
 
-_Source: `dist/main.js:4532` (symbol `I83`)_
+_Source: `dist/main.js:4528` (symbol `G$3`)_
 
 You are an AI assistant that analyzes media files for a software engineer.
 

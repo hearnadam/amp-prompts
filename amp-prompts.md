@@ -1,7 +1,7 @@
 # Amp CLI Extracted Prompts
 
 Source: /home/runner/work/amp-prompts/amp-prompts/node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1779525469-ge68d87
+Package: @sourcegraph/amp@0.0.1779872458-g7b0532
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -21,11 +21,11 @@ Notes:
 - [amp-fast](prompts/amp-fast.md) — line 2200
 - [amp-base](prompts/amp-base.md) — line 2344
 - [agents-md-init](prompts/agents-md-init.md) — line 2393
-- [subagent-summary](prompts/subagent-summary.md) — line 2954
-- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3377
-- [code-search-agent](prompts/code-search-agent.md) — line 3529
-- [librarian](prompts/librarian.md) — line 4142
-- [oracle](prompts/oracle.md) — line 4244
-- [thread-extractor](prompts/thread-extractor.md) — line 4327
-- [task-worker-role](prompts/task-worker-role.md) — line 4430
-- [ai-assistant](prompts/ai-assistant.md) — line 4532
+- [subagent-summary](prompts/subagent-summary.md) — line 2952
+- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3373
+- [code-search-agent](prompts/code-search-agent.md) — line 3525
+- [librarian](prompts/librarian.md) — line 4138
+- [oracle](prompts/oracle.md) — line 4240
+- [thread-extractor](prompts/thread-extractor.md) — line 4323
+- [task-worker-role](prompts/task-worker-role.md) — line 4426
+- [ai-assistant](prompts/ai-assistant.md) — line 4528

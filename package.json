@@ -13,6 +13,6 @@
   "dependencies": {
     "@babel/parser": "^7.29.3",
     "@babel/types": "^7.29.0",
-    "@sourcegraph/amp": "0.0.1779525469-ge68d87"
+    "@sourcegraph/amp": "0.0.1779872458-g7b0532"
   }
 }
