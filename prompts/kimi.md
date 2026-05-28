@@ -1,4 +1,4 @@
-# amp-fast
+# kimi
 
 _Source: `dist/main.js:2200` (symbol `vZ4`)_
 

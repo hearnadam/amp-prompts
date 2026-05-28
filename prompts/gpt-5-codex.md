@@ -1,4 +1,4 @@
-# amp-guardrails-2
+# gpt-5-codex
 
 _Source: `dist/main.js:1969` (symbol `_Z4`)_
 

@@ -1,4 +1,4 @@
-# amp-guardrails
+# gpt
 
 _Source: `dist/main.js:1729` (symbol `uZ4`)_
 

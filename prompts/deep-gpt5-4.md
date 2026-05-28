@@ -1,4 +1,4 @@
-# amp-pragmatic
+# deep-gpt5-4
 
 _Source: `dist/main.js:1130` (symbol `NZ4`)_
 
