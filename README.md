@@ -2,7 +2,7 @@
 
 Tooling that extracts the system prompts baked into the
 [`@sourcegraph/amp`](https://www.npmjs.com/package/@sourcegraph/amp) CLI bundle and
-writes one human-readable Markdown file per prompt under `prompts/`.
+writes human-readable Markdown files under `prompts/` and `skills/`.
 
 The Amp bundle ships as a single minified `dist/main.js`. Each prompt is a
 template literal that often takes feature-flag arguments (e.g. `enableOracle`,
@@ -33,7 +33,7 @@ bun run extract
 
 The script writes:
 
-- `prompts/<name>.md` — one file per prompt. The filename is derived from a
+- `prompts/<name>.md` — one file per prompt. The filename is derived from
   Amp's own `basePromptType` switch when the bundle exposes one, then from a
   curated substring lookup table (see `KNOWN_PROMPTS` in
   `extract-amp-prompts.mjs`), then from heuristics that read the first
@@ -42,8 +42,59 @@ The script writes:
   `librarian`) when a prompt can be tied back to Amp's mode/subagent wiring.
   Trivial prompts (single sentence, no real content) are dropped, as are
   exact-text duplicates.
-- `amp-prompts.md` — an index linking to every generated file, with the
-  bundle version it was extracted from.
+- `subagents/<name>.md` — one file per extracted subagent prompt. These are
+  specialized secondary-agent surfaces such as review, search, oracle, and
+  librarian.
+- `skills/<name>.md` — one file per extracted skill prompt. Skill-like
+  prompts are separated from ordinary prompts so the generated catalog is
+  easier to scan.
+- the generated catalog below — an index linking to every generated file,
+  with the bundle version it was extracted from.
+
+## Catalog
+
+<!-- BEGIN GENERATED CATALOG -->
+
+Source: node_modules/@sourcegraph/amp/dist/main.js
+Package: @sourcegraph/amp@0.0.1779959155-g362e01
+
+Notes:
+- Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
+- Free identifiers (e.g. `R4`, `V6`) are resolved through a Proxy whose backing map was built from `name = "value"` assignments in the bundle.
+- Boolean feature-flag parameters (oracle/diagnostics/check-mode etc.) are forced `true` so all optional sections are included.
+- Main and utility prompts are written under `prompts/`; subagent prompts under `subagents/`; skill prompts under `skills/`.
+
+## Prompts
+
+- [prompt](prompts/prompt.md) — line 758
+- [subagent-summary](prompts/subagent-summary.md) — line 1261
+- [thread-reader](prompts/thread-reader.md) — line 2779
+- [agg](prompts/agg.md) — line 2892
+- [amp-autonomous](prompts/amp-autonomous.md) — line 2951
+- [amp-pragmatic](prompts/amp-pragmatic.md) — line 3047
+- [pair-programming](prompts/pair-programming.md) — line 3207
+- [rush](prompts/rush.md) — line 3305
+- [amp-classic](prompts/amp-classic.md) — line 3382
+- [amp-guardrails](prompts/amp-guardrails.md) — line 3651
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3892
+- [amp-fast](prompts/amp-fast.md) — line 4124
+- [amp-base](prompts/amp-base.md) — line 4269
+- [agents-md-init](prompts/agents-md-init.md) — line 4299
+- [task-worker-role](prompts/task-worker-role.md) — line 4327
+- [ai-assistant](prompts/ai-assistant.md) — line 4429
+
+## Subagents
+
+- [review](subagents/review.md) — line 1793
+- [search](subagents/search.md) — line 1945
+- [librarian](subagents/librarian.md) — line 2558
+- [oracle](subagents/oracle.md) — line 2660
+
+## Skills
+
+- [code-review-skill](skills/code-review-skill.md) — line 1054
+
+<!-- END GENERATED CATALOG -->
 
 ## Bumping Amp
 
@@ -68,7 +119,9 @@ package.json                  # pins @sourcegraph/amp
 .github/workflows/update-amp.yml
 .github/workflows/regenerate-prompts.yml
 prompts/                      # generated; refreshed by the workflow
-amp-prompts.md                # generated index
+subagents/                    # generated subagent prompts
+skills/                       # generated skill prompts
+README.md                     # includes the generated catalog
 ```
 
 ## Caveats

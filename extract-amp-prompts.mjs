@@ -9,7 +9,9 @@ const AMP_PKG_DIR = path.join(ROOT, 'node_modules', '@sourcegraph', 'amp');
 const BUNDLE = path.join(AMP_PKG_DIR, 'dist', 'main.js');
 const PKG = path.join(AMP_PKG_DIR, 'package.json');
 const PROMPTS_DIR = path.join(ROOT, 'prompts');
-const INDEX_FILE = path.join(ROOT, 'amp-prompts.md');
+const SUBAGENTS_DIR = path.join(ROOT, 'subagents');
+const SKILLS_DIR = path.join(ROOT, 'skills');
+const README_FILE = path.join(ROOT, 'README.md');
 
 const source = fs.readFileSync(BUNDLE, 'utf8');
 const pkg = JSON.parse(fs.readFileSync(PKG, 'utf8'));
@@ -314,7 +316,11 @@ const duplicateCount = substantial.length - unique.length;
 console.log(`Dropped ${duplicateCount} duplicate prompts.`);
 
 fs.rmSync(PROMPTS_DIR, { recursive: true, force: true });
+fs.rmSync(SUBAGENTS_DIR, { recursive: true, force: true });
+fs.rmSync(SKILLS_DIR, { recursive: true, force: true });
 fs.mkdirSync(PROMPTS_DIR, { recursive: true });
+fs.mkdirSync(SUBAGENTS_DIR, { recursive: true });
+fs.mkdirSync(SKILLS_DIR, { recursive: true });
 
 function slug(s) {
   return s
@@ -437,10 +443,22 @@ const named = unique.map((block) => {
 // If a base name only appears once we'd rather not number it. Re-pass to clean trailing -2 etc.
 // (Already handled: only suffix when seenN > 0.)
 
-const indexEntries = [];
+function categoryFor(block) {
+  if (block.derivedName.endsWith('-skill')) return 'skill';
+  if (block.text.trimStart().startsWith('# Code Review Skill')) return 'skill';
+  if (['review', 'search', 'librarian', 'oracle'].includes(block.derivedName)) return 'subagent';
+  return 'prompt';
+}
+
+const promptIndexEntries = [];
+const subagentIndexEntries = [];
+const skillIndexEntries = [];
 named.forEach((block) => {
   const filename = `${block.derivedName}.md`;
-  const filePath = path.join(PROMPTS_DIR, filename);
+  const category = categoryFor(block);
+  const outputDir = category === 'skill' ? SKILLS_DIR : category === 'subagent' ? SUBAGENTS_DIR : PROMPTS_DIR;
+  const relativeDir = category === 'skill' ? 'skills' : category === 'subagent' ? 'subagents' : 'prompts';
+  const filePath = path.join(outputDir, filename);
   const body = [
     `# ${block.derivedName}`,
     '',
@@ -450,12 +468,27 @@ named.forEach((block) => {
     '',
   ].join('\n');
   fs.writeFileSync(filePath, body);
-  indexEntries.push(`- [${block.derivedName}](prompts/${filename}) — line ${block.line}`);
+  const entry = `- [${block.derivedName}](${relativeDir}/${filename}) — line ${block.line}`;
+  if (category === 'skill') skillIndexEntries.push(entry);
+  else if (category === 'subagent') subagentIndexEntries.push(entry);
+  else promptIndexEntries.push(entry);
 });
 
-const index = [
-  '# Amp CLI Extracted Prompts',
-  '',
+function replaceGeneratedCatalog(catalog) {
+  const start = '<!-- BEGIN GENERATED CATALOG -->';
+  const end = '<!-- END GENERATED CATALOG -->';
+  const readme = fs.readFileSync(README_FILE, 'utf8');
+  const startIndex = readme.indexOf(start);
+  const endIndex = readme.indexOf(end);
+  if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
+    throw new Error(`README.md must contain ${start} and ${end} markers`);
+  }
+  const before = readme.slice(0, startIndex + start.length);
+  const after = readme.slice(endIndex);
+  fs.writeFileSync(README_FILE, `${before}\n\n${catalog}\n${after}`);
+}
+
+const catalog = [
   `Source: ${path.relative(ROOT, BUNDLE)}`,
   `Package: ${pkg.name}@${pkg.version}`,
   '',
@@ -463,12 +496,24 @@ const index = [
   '- Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.',
   '- Free identifiers (e.g. `R4`, `V6`) are resolved through a Proxy whose backing map was built from `name = "value"` assignments in the bundle.',
   '- Boolean feature-flag parameters (oracle/diagnostics/check-mode etc.) are forced `true` so all optional sections are included.',
-  '- Each prompt is in its own file under `prompts/`.',
+  '- Main and utility prompts are written under `prompts/`; subagent prompts under `subagents/`; skill prompts under `skills/`.',
   '',
-  ...indexEntries,
+  '## Prompts',
+  '',
+  ...promptIndexEntries,
+  '',
+  '## Subagents',
+  '',
+  ...subagentIndexEntries,
+  '',
+  '## Skills',
+  '',
+  ...skillIndexEntries,
   '',
 ].join('\n');
 
-fs.writeFileSync(INDEX_FILE, index);
-console.log(`Wrote ${unique.length} prompt files to ${PROMPTS_DIR}`);
-console.log(`Wrote index to ${INDEX_FILE}`);
+replaceGeneratedCatalog(catalog);
+console.log(`Wrote ${promptIndexEntries.length} prompt files to ${PROMPTS_DIR}`);
+console.log(`Wrote ${subagentIndexEntries.length} subagent files to ${SUBAGENTS_DIR}`);
+console.log(`Wrote ${skillIndexEntries.length} skill files to ${SKILLS_DIR}`);
+console.log(`Updated generated catalog in ${README_FILE}`);
