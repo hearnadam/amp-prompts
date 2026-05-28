@@ -50,18 +50,18 @@ jobs:
           git push
 
       - name: Auto-approve amp bump PR
-        if: github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam'
+        if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam')
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          gh pr review "$PR_URL" --approve --body "Auto-approved: amp-bump PR after prompt regeneration check."
+          gh pr review "$PR_NUMBER" --approve --body "Auto-approved: amp-bump PR after prompt regeneration check."
 
       - name: Enable auto-merge
-        if: github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam'
+        if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          gh pr merge "$PR_URL" --auto --squash
+          gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
