@@ -1,4 +1,4 @@
-# pair-programming
+# smart
 
 _Source: `dist/main.js:1288` (symbol `wZ4`)_
 

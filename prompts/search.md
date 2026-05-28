@@ -1,4 +1,4 @@
-# code-search-agent
+# search
 
 _Source: `dist/main.js:3525` (symbol `X73`)_
 

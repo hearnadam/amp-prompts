@@ -34,10 +34,14 @@ bun run extract
 The script writes:
 
 - `prompts/<name>.md` — one file per prompt. The filename is derived from a
+  Amp's own `basePromptType` switch when the bundle exposes one, then from a
   curated substring lookup table (see `KNOWN_PROMPTS` in
-  `extract-amp-prompts.mjs`) or from heuristics that read the first
-  "You are …" line. Trivial prompts (single sentence, no real content) are
-  dropped, as are exact-text duplicates.
+  `extract-amp-prompts.mjs`), then from heuristics that read the first
+  "You are …" line. This keeps public Amp names from the Owner's Manual and
+  models page (`smart`, `deep`, `rush`, `review`, `search`, `oracle`,
+  `librarian`) when a prompt can be tied back to Amp's mode/subagent wiring.
+  Trivial prompts (single sentence, no real content) are dropped, as are
+  exact-text duplicates.
 - `amp-prompts.md` — an index linking to every generated file, with the
   bundle version it was extracted from.
 

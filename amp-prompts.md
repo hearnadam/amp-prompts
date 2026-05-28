@@ -1,6 +1,6 @@
 # Amp CLI Extracted Prompts
 
-Source: /home/runner/work/amp-prompts/amp-prompts/node_modules/@sourcegraph/amp/dist/main.js
+Source: node_modules/@sourcegraph/amp/dist/main.js
 Package: @sourcegraph/amp@0.0.1779872458-g7b0532
 
 Notes:
@@ -10,20 +10,20 @@ Notes:
 - Each prompt is in its own file under `prompts/`.
 
 - [code-review-skill](prompts/code-review-skill.md) — line 690
-- [agg-man](prompts/agg-man.md) — line 976
-- [amp-autonomous](prompts/amp-autonomous.md) — line 1035
-- [amp-pragmatic](prompts/amp-pragmatic.md) — line 1130
-- [pair-programming](prompts/pair-programming.md) — line 1288
-- [amp](prompts/amp.md) — line 1384
-- [amp-classic](prompts/amp-classic.md) — line 1461
-- [amp-guardrails](prompts/amp-guardrails.md) — line 1729
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 1969
-- [amp-fast](prompts/amp-fast.md) — line 2200
-- [amp-base](prompts/amp-base.md) — line 2344
+- [agg](prompts/agg.md) — line 976
+- [deep](prompts/deep.md) — line 1035
+- [deep-gpt5-4](prompts/deep-gpt5-4.md) — line 1130
+- [smart](prompts/smart.md) — line 1288
+- [rush](prompts/rush.md) — line 2267
+- [gemini](prompts/gemini.md) — line 1461
+- [gpt](prompts/gpt.md) — line 1729
+- [gpt-5-codex](prompts/gpt-5-codex.md) — line 1969
+- [kimi](prompts/kimi.md) — line 2200
+- [xai](prompts/xai.md) — line 2344
 - [agents-md-init](prompts/agents-md-init.md) — line 2393
 - [subagent-summary](prompts/subagent-summary.md) — line 2952
-- [senior-engineer-reviewer](prompts/senior-engineer-reviewer.md) — line 3373
-- [code-search-agent](prompts/code-search-agent.md) — line 3525
+- [review](prompts/review.md) — line 3373
+- [search](prompts/search.md) — line 3525
 - [librarian](prompts/librarian.md) — line 4138
 - [oracle](prompts/oracle.md) — line 4240
 - [thread-extractor](prompts/thread-extractor.md) — line 4323

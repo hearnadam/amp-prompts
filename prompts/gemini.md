@@ -1,4 +1,4 @@
-# amp-classic
+# gemini
 
 _Source: `dist/main.js:1461` (symbol `jZ4`)_
 

@@ -141,6 +141,24 @@ function walkWithParent(node, parent) {
 walkWithParent(ast, null);
 console.log(`Found ${candidates.length} prompt candidates.`);
 
+// Amp's main-agent prompt builder chooses a base prompt by switching on a
+// basePromptType derived from agentMode/model/provider. Prefer that structural
+// mapping over body substrings when the bundle exposes it.
+const PUBLIC_BASE_PROMPT_NAMES = new Map([
+  ['aggman', 'agg'],
+  ['rush', 'rush'],
+  ['deep', 'deep'],
+  ['deep-gpt5.4', 'deep-gpt5-4'],
+  ['frontier', null],
+]);
+const basePromptNameBySymbol = new Map();
+for (const match of source.matchAll(/case"([^"]+)":I=([A-Za-z_$][\w$]*)\(/g)) {
+  const name = PUBLIC_BASE_PROMPT_NAMES.has(match[1]) ? PUBLIC_BASE_PROMPT_NAMES.get(match[1]) : match[1];
+  if (name) basePromptNameBySymbol.set(match[2], name);
+}
+const defaultPrompt = source.match(/default:I=([A-Za-z_$][\w$]*)\(\);break/);
+if (defaultPrompt) basePromptNameBySymbol.set(defaultPrompt[1], 'smart');
+
 // Evaluate each candidate by extracting its source slice and running it in a fresh vm
 // context whose globals are a Proxy that resolves unknown identifiers from identMap (so
 // `R4` evaluates to the string `"finder"`, etc.). For function candidates, call the
@@ -271,12 +289,29 @@ console.log(`Dropped ${rendered.length - substantial.length} trivial prompts.`);
 
 // Dedupe by exact text — different bundle locations sometimes hold identical prompts.
 const seen = new Set();
-const unique = substantial.filter((r) => {
-  if (seen.has(r.text)) return false;
-  seen.add(r.text);
-  return true;
-});
-console.log(`Dropped ${substantial.length - unique.length} duplicate prompts.`);
+function structuralNameFor(block) {
+  return basePromptNameBySymbol.get(block.name);
+}
+
+const PUBLIC_STRUCTURAL_NAMES = new Set(['agg', 'smart', 'deep', 'rush']);
+
+const unique = [];
+for (const block of substantial) {
+  const existingIndex = unique.findIndex((r) => r.text === block.text);
+  if (existingIndex === -1) {
+    unique.push(block);
+    seen.add(block.text);
+    continue;
+  }
+  const existing = unique[existingIndex];
+  const existingName = structuralNameFor(existing);
+  const blockName = structuralNameFor(block);
+  if (!PUBLIC_STRUCTURAL_NAMES.has(existingName) && PUBLIC_STRUCTURAL_NAMES.has(blockName)) {
+    unique[existingIndex] = block;
+  }
+}
+const duplicateCount = substantial.length - unique.length;
+console.log(`Dropped ${duplicateCount} duplicate prompts.`);
 
 fs.rmSync(PROMPTS_DIR, { recursive: true, force: true });
 fs.mkdirSync(PROMPTS_DIR, { recursive: true });
@@ -298,15 +333,19 @@ function slug(s) {
 // because once we've identified a prompt's role by hand, that's always the right name.
 // Order matters: more specific patterns should appear before generic ones.
 const KNOWN_PROMPTS = [
-  ['fast, parallel code search agent', 'code-search-agent'],
+  // Public names from https://ampcode.com/models and the Owner's Manual.
+  // Agent modes: smart, deep, rush. Subagents: review, search, oracle, librarian.
+  ['You are Amp, an autonomous coding agent and lead orchestrator', 'deep'],
+  ['You are Amp (Rush Mode)', 'rush'],
+  ['Optimize for latency and token economy', 'rush'],
+  ['You are Agg Man', 'agg'],
+  ['expert senior engineer', 'review'],
+  ['fast, parallel code search agent', 'search'],
   ['You are the Librarian', 'librarian'],
   ['You are the Oracle', 'oracle'],
-  ['You are Agg Man', 'agg-man'],
-  ['You are Amp (Rush Mode)', 'amp-rush-mode'],
   ['Amp, an autonomous coding agent', 'amp-autonomous'],
   ['optimized for speed and efficiency', 'amp-fast'],
   ['pair programming with a user', 'pair-programming'],
-  ['expert senior engineer', 'senior-engineer-reviewer'],
   ['analyzes files for a software engineer', 'file-analyzer'],
   ['generates short, descriptive titles', 'title-generator'],
   ['summarize work done by an AI coding agent', 'subagent-summary'],
@@ -323,7 +362,11 @@ const KNOWN_PROMPTS = [
   ['You are , a powerful AI coding agent', 'amp-base'],
 ];
 
-function deriveName(text) {
+function deriveName(block) {
+  const text = block.text;
+  const structuralName = structuralNameFor(block);
+  if (structuralName) return structuralName;
+
   for (const [needle, name] of KNOWN_PROMPTS) {
     if (text.includes(needle)) return name;
   }
@@ -384,7 +427,7 @@ function deriveName(text) {
 // Assign names with disambiguation: identical derived names get a numeric suffix.
 const nameCount = new Map();
 const named = unique.map((block) => {
-  const base = deriveName(block.text);
+  const base = deriveName(block);
   const seenN = nameCount.get(base) ?? 0;
   nameCount.set(base, seenN + 1);
   const finalName = seenN === 0 ? base : `${base}-${seenN + 1}`;
@@ -413,7 +456,7 @@ named.forEach((block) => {
 const index = [
   '# Amp CLI Extracted Prompts',
   '',
-  `Source: ${BUNDLE}`,
+  `Source: ${path.relative(ROOT, BUNDLE)}`,
   `Package: ${pkg.name}@${pkg.version}`,
   '',
   'Notes:',

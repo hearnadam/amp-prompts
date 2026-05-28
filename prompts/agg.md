@@ -1,4 +1,4 @@
-# agg-man
+# agg
 
 _Source: `dist/main.js:976` (symbol `WZ4`)_
 
