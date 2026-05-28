@@ -1,6 +1,6 @@
 # search
 
-_Source: `dist/main.js:3525` (symbol `X73`)_
+_Source: `dist/main.js:1945` (symbol `jR6`)_
 
 You are a fast, parallel code search agent.
 

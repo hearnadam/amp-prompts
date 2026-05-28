@@ -1,7 +1,7 @@
 # Amp CLI Extracted Prompts
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1779872458-g7b0532
+Package: @sourcegraph/amp@0.0.1779927513-g17febb
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -9,23 +9,24 @@ Notes:
 - Boolean feature-flag parameters (oracle/diagnostics/check-mode etc.) are forced `true` so all optional sections are included.
 - Each prompt is in its own file under `prompts/`.
 
-- [code-review-skill](prompts/code-review-skill.md) — line 690
-- [agg](prompts/agg.md) — line 976
-- [deep](prompts/deep.md) — line 1035
-- [deep-gpt5-4](prompts/deep-gpt5-4.md) — line 1130
-- [smart](prompts/smart.md) — line 1288
-- [rush](prompts/rush.md) — line 2267
-- [gemini](prompts/gemini.md) — line 1461
-- [gpt](prompts/gpt.md) — line 1729
-- [gpt-5-codex](prompts/gpt-5-codex.md) — line 1969
-- [kimi](prompts/kimi.md) — line 2200
-- [xai](prompts/xai.md) — line 2344
-- [agents-md-init](prompts/agents-md-init.md) — line 2393
-- [subagent-summary](prompts/subagent-summary.md) — line 2952
-- [review](prompts/review.md) — line 3373
-- [search](prompts/search.md) — line 3525
-- [librarian](prompts/librarian.md) — line 4138
-- [oracle](prompts/oracle.md) — line 4240
-- [thread-extractor](prompts/thread-extractor.md) — line 4323
-- [task-worker-role](prompts/task-worker-role.md) — line 4426
-- [ai-assistant](prompts/ai-assistant.md) — line 4528
+- [prompt](prompts/prompt.md) — line 758
+- [code-review-skill](prompts/code-review-skill.md) — line 1054
+- [subagent-summary](prompts/subagent-summary.md) — line 1261
+- [review](prompts/review.md) — line 1793
+- [search](prompts/search.md) — line 1945
+- [librarian](prompts/librarian.md) — line 2558
+- [oracle](prompts/oracle.md) — line 2660
+- [thread-reader](prompts/thread-reader.md) — line 2779
+- [agg](prompts/agg.md) — line 2892
+- [amp-autonomous](prompts/amp-autonomous.md) — line 2951
+- [amp-pragmatic](prompts/amp-pragmatic.md) — line 3047
+- [pair-programming](prompts/pair-programming.md) — line 3207
+- [rush](prompts/rush.md) — line 3305
+- [amp-classic](prompts/amp-classic.md) — line 3382
+- [amp-guardrails](prompts/amp-guardrails.md) — line 3651
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3892
+- [amp-fast](prompts/amp-fast.md) — line 4124
+- [amp-base](prompts/amp-base.md) — line 4269
+- [agents-md-init](prompts/agents-md-init.md) — line 4299
+- [task-worker-role](prompts/task-worker-role.md) — line 4327
+- [ai-assistant](prompts/ai-assistant.md) — line 4429
