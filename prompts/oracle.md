@@ -1,6 +1,6 @@
 # oracle
 
-_Source: `dist/main.js:2660` (symbol `l_0`)_
+_Source: `dist/main.js:2660` (symbol `i_0`)_
 
 You are the Oracle - an expert AI advisor with advanced reasoning capabilities.
 

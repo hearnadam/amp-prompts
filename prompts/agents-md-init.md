@@ -1,6 +1,6 @@
 # agents-md-init
 
-_Source: `dist/main.js:4299` (symbol `iM$`)_
+_Source: `dist/main.js:4299` (symbol `rM$`)_
 
 Please analyze this codebase and create an AGENTS.md file containing:
 1. Build/lint/test commands - especially for running a single test

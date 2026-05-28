@@ -1,7 +1,7 @@
 # Amp CLI Extracted Prompts
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1779927513-g17febb
+Package: @sourcegraph/amp@0.0.1779945647-g362e01
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
