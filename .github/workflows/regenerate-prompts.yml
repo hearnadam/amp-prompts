@@ -45,7 +45,7 @@ jobs:
             echo "No prompt changes."
             exit 0
           fi
-          AMP_VERSION=$(node -p "require('./node_modules/@sourcegraph/amp/package.json').version")
+          AMP_VERSION=$(bun -e "console.log(require('./node_modules/@sourcegraph/amp/package.json').version)")
           git commit -m "Regenerate prompts for @sourcegraph/amp@${AMP_VERSION}"
           git push
 
