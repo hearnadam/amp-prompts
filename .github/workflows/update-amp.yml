@@ -26,7 +26,7 @@ jobs:
       - name: Update @sourcegraph/amp
         id: amp
         run: |
-          current=$(node -p "require('./package.json').dependencies['@sourcegraph/amp']")
+          current=$(bun -e "console.log(require('./package.json').dependencies['@sourcegraph/amp'])")
           latest=$(bun pm view @sourcegraph/amp version)
 
           echo "current=${current}" >> "$GITHUB_OUTPUT"
@@ -42,6 +42,7 @@ jobs:
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Create update PR
+        id: create-pr
         if: steps.amp.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
@@ -55,3 +56,10 @@ jobs:
 
             This workflow also runs `bun run extract` so the generated prompt files stay in sync with the package bump.
           labels: amp-bump
+
+      - name: Enable auto-merge
+        if: steps.create-pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
+        run: gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
