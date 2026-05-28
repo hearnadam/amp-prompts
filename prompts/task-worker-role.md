@@ -1,6 +1,6 @@
 # task-worker-role
 
-_Source: `dist/main.js:4426` (symbol `vQ3`)_
+_Source: `dist/main.js:4327` (symbol `Rv6`)_
 
 ## Task Worker Role
 
