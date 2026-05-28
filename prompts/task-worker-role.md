@@ -1,6 +1,6 @@
 # task-worker-role
 
-_Source: `dist/main.js:4327` (symbol `Rv6`)_
+_Source: `dist/main.js:4327` (symbol `Pv6`)_
 
 ## Task Worker Role
 

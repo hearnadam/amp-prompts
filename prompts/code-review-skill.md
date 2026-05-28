@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1054` (symbol `MF6`)_
+_Source: `dist/main.js:1054` (symbol `LF6`)_
 
 # Code Review Skill
 
