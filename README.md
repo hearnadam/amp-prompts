@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1779959155-g362e01
+Package: @sourcegraph/amp@0.0.1780001021-g55238e
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -73,15 +73,15 @@ Notes:
 - [amp-autonomous](prompts/amp-autonomous.md) — line 2951
 - [amp-pragmatic](prompts/amp-pragmatic.md) — line 3047
 - [pair-programming](prompts/pair-programming.md) — line 3207
-- [rush](prompts/rush.md) — line 3305
-- [amp-classic](prompts/amp-classic.md) — line 3382
-- [amp-guardrails](prompts/amp-guardrails.md) — line 3651
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3892
-- [amp-fast](prompts/amp-fast.md) — line 4124
-- [amp-base](prompts/amp-base.md) — line 4269
-- [agents-md-init](prompts/agents-md-init.md) — line 4299
-- [task-worker-role](prompts/task-worker-role.md) — line 4327
-- [ai-assistant](prompts/ai-assistant.md) — line 4429
+- [amp-classic](prompts/amp-classic.md) — line 3305
+- [amp-guardrails](prompts/amp-guardrails.md) — line 3574
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3815
+- [amp-fast](prompts/amp-fast.md) — line 4047
+- [rush](prompts/rush.md) — line 4115
+- [amp-base](prompts/amp-base.md) — line 4192
+- [agents-md-init](prompts/agents-md-init.md) — line 4222
+- [task-worker-role](prompts/task-worker-role.md) — line 4250
+- [ai-assistant](prompts/ai-assistant.md) — line 4352
 
 ## Subagents
 
