@@ -1,6 +1,6 @@
 # amp-guardrails
 
-_Source: `dist/main.js:3574` (symbol `mE4`)_
+_Source: `dist/main.js:3574` (symbol `cE4`)_
 
 You are Amp, a powerful AI coding agent. You help the user with software engineering tasks. Use the instructions below and the tools available to you to help the user.
 

@@ -1,6 +1,6 @@
 # prompt
 
-_Source: `dist/main.js:758` (symbol `eaA`)_
+_Source: `dist/main.js:758` (symbol `QoA`)_
 
 #!/usr/bin/env bun
 // @bun
