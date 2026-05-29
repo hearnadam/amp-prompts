@@ -1,6 +1,6 @@
 # task-worker-role
 
-_Source: `dist/main.js:4250` (symbol `av6`)_
+_Source: `dist/main.js:4250` (symbol `sv6`)_
 
 ## Task Worker Role
 

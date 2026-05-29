@@ -1,6 +1,6 @@
 # amp-base
 
-_Source: `dist/main.js:4192` (symbol `lE4`)_
+_Source: `dist/main.js:4192` (symbol `nE4`)_
 
 You are , a powerful AI coding agent.
 
