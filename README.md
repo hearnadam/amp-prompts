@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1780118009-g45d3ab
+Package: @sourcegraph/amp@0.0.1780130685-gfdac38
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
