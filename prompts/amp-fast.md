@@ -1,6 +1,6 @@
 # amp-fast
 
-_Source: `dist/main.js:4047` (symbol `lE4`)_
+_Source: `dist/main.js:3859` (symbol `uX4`)_
 
 You are Amp, a powerful AI coding agent, optimized for speed and efficiency.
 

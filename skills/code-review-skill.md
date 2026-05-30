@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1054` (symbol `iF6`)_
+_Source: `dist/main.js:1040` (symbol `hJQ`)_
 
 # Code Review Skill
 

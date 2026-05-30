@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1780045299-g6094cf
+Package: @sourcegraph/amp@0.0.1780118009-g45d3ab
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -66,33 +66,29 @@ Notes:
 
 ## Prompts
 
-- [prompt](prompts/prompt.md) — line 758
-- [subagent-summary](prompts/subagent-summary.md) — line 1261
-- [thread-reader](prompts/thread-reader.md) — line 2779
-- [agg](prompts/agg.md) — line 2892
-- [amp-autonomous](prompts/amp-autonomous.md) — line 2951
-- [amp-pragmatic](prompts/amp-pragmatic.md) — line 3047
-- [pair-programming](prompts/pair-programming.md) — line 3207
-- [amp-classic](prompts/amp-classic.md) — line 3305
-- [amp-guardrails](prompts/amp-guardrails.md) — line 3574
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3815
-- [amp-fast](prompts/amp-fast.md) — line 4047
-- [rush](prompts/rush.md) — line 4115
-- [amp-base](prompts/amp-base.md) — line 4192
-- [agents-md-init](prompts/agents-md-init.md) — line 4222
-- [task-worker-role](prompts/task-worker-role.md) — line 4250
-- [ai-assistant](prompts/ai-assistant.md) — line 4352
+- [prompt](prompts/prompt.md) — line 744
+- [subagent-summary](prompts/subagent-summary.md) — line 1537
+- [thread-reader](prompts/thread-reader.md) — line 2483
+- [ai-assistant](prompts/ai-assistant.md) — line 2639
+- [agg](prompts/agg.md) — line 2712
+- [amp-autonomous](prompts/amp-autonomous.md) — line 2771
+- [amp-pragmatic](prompts/amp-pragmatic.md) — line 2859
+- [pair-programming](prompts/pair-programming.md) — line 3019
+- [amp-classic](prompts/amp-classic.md) — line 3117
+- [amp-guardrails](prompts/amp-guardrails.md) — line 3386
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3627
+- [amp-fast](prompts/amp-fast.md) — line 3859
+- [rush](prompts/rush.md) — line 3927
+- [amp-base](prompts/amp-base.md) — line 4004
+- [agents-md-init](prompts/agents-md-init.md) — line 4034
 
 ## Subagents
 
-- [review](subagents/review.md) — line 1793
-- [search](subagents/search.md) — line 1945
-- [librarian](subagents/librarian.md) — line 2558
-- [oracle](subagents/oracle.md) — line 2660
+- [review](subagents/review.md) — line 1740
 
 ## Skills
 
-- [code-review-skill](skills/code-review-skill.md) — line 1054
+- [code-review-skill](skills/code-review-skill.md) — line 1040
 
 <!-- END GENERATED CATALOG -->
 
