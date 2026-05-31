@@ -1,6 +1,6 @@
 # ai-assistant
 
-_Source: `dist/main.js:2639` (symbol `fPQ`)_
+_Source: `dist/main.js:2640` (symbol `rPQ`)_
 
 You are an AI assistant that analyzes media files for a software engineer.
 

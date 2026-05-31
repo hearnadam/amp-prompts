@@ -1,6 +1,6 @@
 # rush
 
-_Source: `dist/main.js:3927` (symbol `wX4`)_
+_Source: `dist/main.js:3931` (symbol `TX4`)_
 
 You are Amp. You and the user share one workspace. Deliver the smallest correct outcome with the fewest useful tool loops.
 
