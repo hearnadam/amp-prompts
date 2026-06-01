@@ -1,6 +1,6 @@
 # amp-base
 
-_Source: `dist/main.js:4008` (symbol `_X4`)_
+_Source: `dist/main.js:4006` (symbol `vX4`)_
 
 You are , a powerful AI coding agent.
 
