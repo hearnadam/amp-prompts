@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1780306933-g944f6c
+Package: @sourcegraph/amp@0.0.1780391988-g4f09f3
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -68,19 +68,19 @@ Notes:
 
 - [prompt](prompts/prompt.md) — line 744
 - [subagent-summary](prompts/subagent-summary.md) — line 1537
-- [thread-reader](prompts/thread-reader.md) — line 2484
-- [ai-assistant](prompts/ai-assistant.md) — line 2638
-- [agg](prompts/agg.md) — line 2711
-- [amp-autonomous](prompts/amp-autonomous.md) — line 2770
-- [amp-pragmatic](prompts/amp-pragmatic.md) — line 2860
-- [pair-programming](prompts/pair-programming.md) — line 3021
-- [amp-classic](prompts/amp-classic.md) — line 3119
-- [amp-guardrails](prompts/amp-guardrails.md) — line 3388
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3629
-- [amp-fast](prompts/amp-fast.md) — line 3861
-- [rush](prompts/rush.md) — line 3929
-- [amp-base](prompts/amp-base.md) — line 4006
-- [agents-md-init](prompts/agents-md-init.md) — line 4036
+- [thread-reader](prompts/thread-reader.md) — line 2483
+- [ai-assistant](prompts/ai-assistant.md) — line 2596
+- [agg](prompts/agg.md) — line 2669
+- [amp-autonomous](prompts/amp-autonomous.md) — line 2728
+- [amp-pragmatic](prompts/amp-pragmatic.md) — line 2818
+- [pair-programming](prompts/pair-programming.md) — line 2979
+- [amp-classic](prompts/amp-classic.md) — line 3077
+- [amp-guardrails](prompts/amp-guardrails.md) — line 3346
+- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3587
+- [amp-fast](prompts/amp-fast.md) — line 3819
+- [rush](prompts/rush.md) — line 3887
+- [amp-base](prompts/amp-base.md) — line 3964
+- [agents-md-init](prompts/agents-md-init.md) — line 3994
 
 ## Subagents
 
