@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1040` (symbol `Q2Q`)_
+_Source: `dist/main.js:1040` (symbol `f2Q`)_
 
 # Code Review Skill
 

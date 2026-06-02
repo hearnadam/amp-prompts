@@ -1,6 +1,6 @@
 # review
 
-_Source: `dist/main.js:1740` (symbol `w94`)_
+_Source: `dist/main.js:1740` (symbol `DE4`)_
 
 You are an expert senior engineer with deep knowledge of software engineering best practices, security, performance, and maintainability.
 
