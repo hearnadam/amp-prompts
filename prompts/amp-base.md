@@ -1,6 +1,6 @@
 # amp-base
 
-_Source: `dist/main.js:3964` (symbol `XI4`)_
+_Source: `dist/main.js:3964` (symbol `CI4`)_
 
 You are , a powerful AI coding agent.
 
