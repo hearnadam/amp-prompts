@@ -1,6 +1,6 @@
 # prompt
 
-_Source: `dist/main.js:744` (symbol `JoA`)_
+_Source: `dist/main.js:744` (symbol `GoA`)_
 
 #!/usr/bin/env bun
 // @bun
