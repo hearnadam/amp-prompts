@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1040` (symbol `h2Q`)_
+_Source: `dist/main.js:1040` (symbol `Y2Q`)_
 
 # Code Review Skill
 
