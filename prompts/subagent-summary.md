@@ -1,6 +1,6 @@
 # subagent-summary
 
-_Source: `dist/main.js:1537` (symbol `anonymous`)_
+_Source: `dist/main.js:1532` (symbol `anonymous`)_
 
 You are helping summarize work done by an AI coding agent (subagent) before it encountered an error.
 

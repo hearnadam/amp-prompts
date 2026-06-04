@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1780478921-g021c3e
+Package: @sourcegraph/amp@0.0.1780564400-g2007df
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -67,24 +67,13 @@ Notes:
 ## Prompts
 
 - [prompt](prompts/prompt.md) — line 744
-- [subagent-summary](prompts/subagent-summary.md) — line 1537
-- [thread-reader](prompts/thread-reader.md) — line 2483
-- [ai-assistant](prompts/ai-assistant.md) — line 2596
-- [agg](prompts/agg.md) — line 2669
-- [amp-autonomous](prompts/amp-autonomous.md) — line 2728
-- [amp-pragmatic](prompts/amp-pragmatic.md) — line 2818
-- [pair-programming](prompts/pair-programming.md) — line 2979
-- [amp-classic](prompts/amp-classic.md) — line 3077
-- [amp-guardrails](prompts/amp-guardrails.md) — line 3346
-- [amp-guardrails-2](prompts/amp-guardrails-2.md) — line 3587
-- [amp-fast](prompts/amp-fast.md) — line 3819
-- [rush](prompts/rush.md) — line 3887
-- [amp-base](prompts/amp-base.md) — line 3964
-- [agents-md-init](prompts/agents-md-init.md) — line 3994
+- [subagent-summary](prompts/subagent-summary.md) — line 1532
+- [thread-reader](prompts/thread-reader.md) — line 2478
+- [ai-assistant](prompts/ai-assistant.md) — line 2591
 
 ## Subagents
 
-- [review](subagents/review.md) — line 1740
+- [review](subagents/review.md) — line 1735
 
 ## Skills
 
