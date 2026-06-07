@@ -1,6 +1,6 @@
 # ai-assistant
 
-_Source: `dist/main.js:2588` (symbol `STQ`)_
+_Source: `dist/main.js:2588` (symbol `XvQ`)_
 
 You are an AI assistant that analyzes media files for a software engineer.
 
