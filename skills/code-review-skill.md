@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1040` (symbol `RUQ`)_
+_Source: `dist/main.js:1040` (symbol `jUQ`)_
 
 # Code Review Skill
 
