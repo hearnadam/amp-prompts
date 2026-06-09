@@ -56,7 +56,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1780909758-g2d38be
+Package: @sourcegraph/amp@0.0.1781003299-g2fde29
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -68,8 +68,7 @@ Notes:
 
 - [prompt](prompts/prompt.md) — line 744
 - [subagent-summary](prompts/subagent-summary.md) — line 1527
-- [thread-reader](prompts/thread-reader.md) — line 2473
-- [ai-assistant](prompts/ai-assistant.md) — line 2588
+- [ai-assistant](prompts/ai-assistant.md) — line 2483
 
 ## Subagents
 
