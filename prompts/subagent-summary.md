@@ -1,6 +1,6 @@
 # subagent-summary
 
-_Source: `dist/main.js:1527` (symbol `anonymous`)_
+_Source: `node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374:4476` (symbol `anonymous`)_
 
 You are helping summarize work done by an AI coding agent (subagent) before it encountered an error.
 

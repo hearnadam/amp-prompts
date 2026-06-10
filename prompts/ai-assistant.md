@@ -1,6 +1,6 @@
 # ai-assistant
 
-_Source: `dist/main.js:2483` (symbol `qTQ`)_
+_Source: `node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374:2211` (symbol `nuR`)_
 
 You are an AI assistant that analyzes media files for a software engineer.
 

@@ -1,19 +1,25 @@
 # amp-prompts
 
 Tooling that extracts the system prompts baked into the
-[`@sourcegraph/amp`](https://www.npmjs.com/package/@sourcegraph/amp) CLI bundle and
-writes human-readable Markdown files under `prompts/` and `skills/`.
+[`@ampcode/cli`](https://www.npmjs.com/package/@ampcode/cli) CLI and
+writes human-readable Markdown files under `prompts/`, `subagents/`, and
+`skills/`.
 
-The Amp bundle ships as a single minified `dist/main.js`. Each prompt is a
-template literal that often takes feature-flag arguments (e.g. `enableOracle`,
-`enableDiagnostics`) and references other minified identifiers like `R4`, `V6`,
-`AA`. This repo:
+Older `@sourcegraph/amp` packages shipped a single minified `dist/main.js`.
+Amp now ships through `@ampcode/cli`, whose platform packages contain a native
+executable with the bundled JavaScript embedded inside it. The extractor
+supports both layouts: it reads the legacy `dist/main.js` when present,
+otherwise scans the installed native Amp binary for the embedded bundle. Each
+prompt is a template literal that often takes feature-flag arguments (e.g.
+`enableOracle`, `enableDiagnostics`) and references other minified identifiers
+like `R4`, `V6`, `AA`. This repo:
 
-1. Pins `@sourcegraph/amp` as a normal dependency so Dependabot can open a PR
+1. Pins `@ampcode/cli` as a normal dependency so Dependabot can open a PR
    each time a new bundle is published.
 2. Parses the installed bundle with `@babel/parser`, locates every arrow
-   function or template literal whose body looks like a prompt, and
-   evaluates it inside a `node:vm` sandbox.
+   function or template literal whose body looks like a prompt, rejects
+   generated runtime bundles and trivial guard strings, and evaluates each
+   candidate inside a `node:vm` sandbox.
 3. The sandbox's globals are a `Proxy` whose backing map is built from every
    `name = "value"` assignment in the bundle, so a reference to `R4`
    resolves to the string `"finder"`, `V6` to `"Read"`, and so on. Any
@@ -55,8 +61,8 @@ The script writes:
 
 <!-- BEGIN GENERATED CATALOG -->
 
-Source: node_modules/@sourcegraph/amp/dist/main.js
-Package: @sourcegraph/amp@0.0.1781003299-g2fde29
+Source: node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374
+Package: @ampcode/cli@0.0.1781102632-gaaab69
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -66,23 +72,22 @@ Notes:
 
 ## Prompts
 
-- [prompt](prompts/prompt.md) — line 744
-- [subagent-summary](prompts/subagent-summary.md) — line 1527
-- [ai-assistant](prompts/ai-assistant.md) — line 2483
+- [ai-assistant](prompts/ai-assistant.md) — line 2211
+- [subagent-summary](prompts/subagent-summary.md) — line 4476
 
 ## Subagents
 
-- [review](subagents/review.md) — line 1730
+- [review](subagents/review.md) — line 1933
 
 ## Skills
 
-- [code-review-skill](skills/code-review-skill.md) — line 1040
+- [code-review-skill](skills/code-review-skill.md) — line 1804
 
 <!-- END GENERATED CATALOG -->
 
 ## Bumping Amp
 
-`@sourcegraph/amp` is pinned exactly in `package.json`. The workflow at
+`@ampcode/cli` is pinned exactly in `package.json`. The workflow at
 `.github/workflows/update-amp.yml` runs daily, can also be triggered manually,
 asks the npm registry for the latest published version with `bun pm view`,
 updates the exact pin with `bun add`, runs `bun run extract`, and opens a PR
@@ -99,7 +104,7 @@ also enables auto-merge for `amp-bump` PRs opened by `github-actions[bot]` or
 
 ```
 extract-amp-prompts.mjs       # the extractor
-package.json                  # pins @sourcegraph/amp
+package.json                  # pins @ampcode/cli
 .github/workflows/update-amp.yml
 .github/workflows/regenerate-prompts.yml
 prompts/                      # generated; refreshed by the workflow
