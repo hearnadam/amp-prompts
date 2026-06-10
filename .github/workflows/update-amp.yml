@@ -23,11 +23,11 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Update @sourcegraph/amp
+      - name: Update @ampcode/cli
         id: amp
         run: |
-          current=$(bun -e "console.log(require('./package.json').dependencies['@sourcegraph/amp'])")
-          latest=$(bun pm view @sourcegraph/amp version)
+          current=$(bun -e "console.log(require('./package.json').dependencies['@ampcode/cli'])")
+          latest=$(bun pm view @ampcode/cli version)
 
           echo "current=${current}" >> "$GITHUB_OUTPUT"
           echo "latest=${latest}" >> "$GITHUB_OUTPUT"
@@ -37,7 +37,7 @@ jobs:
             exit 0
           fi
 
-          bun add "@sourcegraph/amp@${latest}"
+          bun add "@ampcode/cli@${latest}"
           bun run extract
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
@@ -49,10 +49,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: bot/update-amp
           delete-branch: true
-          title: "deps: update @sourcegraph/amp to ${{ steps.amp.outputs.latest }}"
-          commit-message: "deps: update @sourcegraph/amp to ${{ steps.amp.outputs.latest }}"
+          title: "deps: update @ampcode/cli to ${{ steps.amp.outputs.latest }}"
+          commit-message: "deps: update @ampcode/cli to ${{ steps.amp.outputs.latest }}"
           body: |
-            Updates `@sourcegraph/amp` from `${{ steps.amp.outputs.current }}` to `${{ steps.amp.outputs.latest }}`.
+            Updates `@ampcode/cli` from `${{ steps.amp.outputs.current }}` to `${{ steps.amp.outputs.latest }}`.
 
             This workflow also runs `bun run extract` so the generated prompt files stay in sync with the package bump.
           labels: amp-bump

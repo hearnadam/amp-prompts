@@ -5,18 +5,112 @@ import vm from 'node:vm';
 import { parse } from '@babel/parser';
 
 const ROOT = path.dirname(url.fileURLToPath(import.meta.url));
-const AMP_PKG_DIR = path.join(ROOT, 'node_modules', '@sourcegraph', 'amp');
-const BUNDLE = path.join(AMP_PKG_DIR, 'dist', 'main.js');
-const PKG = path.join(AMP_PKG_DIR, 'package.json');
+const AMPCODE_CLI_DIR = path.join(ROOT, 'node_modules', '@ampcode', 'cli');
+const AMPCODE_CLI_PKG = path.join(AMPCODE_CLI_DIR, 'package.json');
+const LEGACY_SOURCEGRAPH_DIR = path.join(ROOT, 'node_modules', '@sourcegraph', 'amp');
+const LEGACY_SOURCEGRAPH_PKG = path.join(LEGACY_SOURCEGRAPH_DIR, 'package.json');
+const LEGACY_BUNDLE = path.join(LEGACY_SOURCEGRAPH_DIR, 'dist', 'main.js');
 const PROMPTS_DIR = path.join(ROOT, 'prompts');
 const SUBAGENTS_DIR = path.join(ROOT, 'subagents');
 const SKILLS_DIR = path.join(ROOT, 'skills');
 const README_FILE = path.join(ROOT, 'README.md');
+const MAX_PROMPT_CHARS = 80_000;
 
-const source = fs.readFileSync(BUNDLE, 'utf8');
-const pkg = JSON.parse(fs.readFileSync(PKG, 'utf8'));
+function relative(p) {
+  return path.relative(ROOT, p);
+}
 
-console.log('Parsing bundle...');
+function resolveNativeAmpBinary() {
+  if (!fs.existsSync(AMPCODE_CLI_PKG)) {
+    throw new Error('Could not find @ampcode/cli. Run bun install first.');
+  }
+  const cliPkg = JSON.parse(fs.readFileSync(path.join(AMPCODE_CLI_DIR, 'package.json'), 'utf8'));
+  const platformPackageByKey = {
+    'darwin-arm64': '@ampcode/cli-darwin-arm64',
+    'darwin-x64': '@ampcode/cli-darwin-x64',
+    'linux-arm64': '@ampcode/cli-linux-arm64',
+    'linux-x64': '@ampcode/cli-linux-x64',
+    'win32-x64': '@ampcode/cli-win32-x64',
+  };
+  const key = `${process.platform}-${process.arch}`;
+  const platformPackage = platformPackageByKey[key];
+  if (platformPackage) {
+    const platformDir = path.join(ROOT, 'node_modules', ...platformPackage.split('/'));
+    const binary = path.join(platformDir, process.platform === 'win32' ? 'amp.exe' : 'amp');
+    if (fs.existsSync(binary)) return binary;
+  }
+
+  const binRel = cliPkg.bin?.amp;
+  if (binRel) {
+    const binary = path.join(AMPCODE_CLI_DIR, binRel);
+    if (fs.existsSync(binary) && fs.statSync(binary).size > 100_000) return binary;
+  }
+
+  throw new Error(`Could not find native Amp binary for ${key}. Install @ampcode/cli first.`);
+}
+
+function sourceLikeByte(byte) {
+  return byte === 0x09 || byte === 0x0a || byte === 0x0d || (byte >= 0x20 && byte <= 0x7e) || byte >= 0x80;
+}
+
+function extractEmbeddedBundle(binaryPath) {
+  const buffer = fs.readFileSync(binaryPath);
+  const bundleMarkers = [
+    'Code Review Skill',
+    'Additional instructions from the user',
+    'Please analyze this codebase',
+    'AGENTS.md guidance',
+    'promptFragments',
+    'systemPrompt',
+  ];
+  const candidates = [];
+  let start = -1;
+  for (let i = 0; i <= buffer.length; i += 1) {
+    const isSourceLike = i < buffer.length && sourceLikeByte(buffer[i]);
+    if (isSourceLike && start === -1) start = i;
+    if ((!isSourceLike || i === buffer.length) && start !== -1) {
+      const length = i - start;
+      if (length >= 500_000) {
+        const text = buffer.subarray(start, i).toString('utf8');
+        const markerCount = bundleMarkers.filter((marker) => text.includes(marker)).length;
+        if (text.startsWith('// @bun') && markerCount > 0) {
+          candidates.push({ text, offset: start, length, markerCount });
+        }
+      }
+      start = -1;
+    }
+  }
+
+  candidates.sort((a, b) => b.markerCount - a.markerCount || b.length - a.length);
+  if (candidates.length === 0) {
+    throw new Error(`Could not find embedded Amp JS bundle in ${binaryPath}`);
+  }
+  return candidates[0];
+}
+
+function loadAmpSource() {
+  if (fs.existsSync(LEGACY_BUNDLE)) {
+    const pkg = JSON.parse(fs.readFileSync(LEGACY_SOURCEGRAPH_PKG, 'utf8'));
+    return {
+      source: fs.readFileSync(LEGACY_BUNDLE, 'utf8'),
+      sourceLabel: relative(LEGACY_BUNDLE),
+      pkg,
+    };
+  }
+
+  const pkg = JSON.parse(fs.readFileSync(AMPCODE_CLI_PKG, 'utf8'));
+  const binary = resolveNativeAmpBinary();
+  const embedded = extractEmbeddedBundle(binary);
+  return {
+    source: embedded.text,
+    sourceLabel: `${relative(binary)}#embedded-js@${embedded.offset}`,
+    pkg,
+  };
+}
+
+const { source, sourceLabel, pkg } = loadAmpSource();
+
+console.log(`Parsing ${sourceLabel}...`);
 const ast = parse(source, {
   sourceType: 'unambiguous',
   errorRecovery: true,
@@ -70,7 +164,21 @@ console.log(`Collected ${identMap.size} identifier candidates.`);
 //   1. Arrow/Function expressions whose body is (or returns) a template literal containing prompt-y text.
 //   2. Top-level template literals containing prompt-y text (already-rendered prompts).
 const PROMPT_RE = /You are|Please analyze|AGENTS\.md guidance|MUST answer|fast, parallel code search agent|Librarian|REPL operator|code review|Additional instructions from the user/i;
-const STARTS_LIKE_PROMPT = /^(#|You are|Please analyze|AGENTS\.md guidance|MUST answer|The following|Run comprehensive|Remember:|Additional instructions from the user)/i;
+const STARTS_LIKE_PROMPT = /^(# Code Review Skill\b|#{1,3}\s+.+\bSkill\b|You are|Please analyze|AGENTS\.md guidance|MUST answer|The following|Run comprehensive|Remember:|Additional instructions from the user)/i;
+
+function isBundleLikeText(text) {
+  const trimmed = text.trimStart();
+  if (trimmed.length > MAX_PROMPT_CHARS) return true;
+  if (trimmed.startsWith('#!/usr/bin/env bun')) return true;
+  if (trimmed.startsWith('// @bun\nvar ')) return true;
+  if (/^(var|function)\s+[A-Za-z_$][\w$]*=.*Object\.create/.test(trimmed.slice(0, 300))) return true;
+  return false;
+}
+
+function looksLikePromptText(text) {
+  const trimmed = text.trim();
+  return !isBundleLikeText(trimmed) && PROMPT_RE.test(trimmed) && STARTS_LIKE_PROMPT.test(trimmed);
+}
 
 function lineOf(node) {
   return node.loc?.start?.line ?? 0;
@@ -104,7 +212,7 @@ function walkWithParent(node, parent) {
     }
     if (tpl) {
       const sample = templateLiteralText(tpl);
-      if (PROMPT_RE.test(sample) && STARTS_LIKE_PROMPT.test(sample.trim())) {
+      if (looksLikePromptText(sample)) {
         candidates.push({
           kind: 'function',
           node,
@@ -121,7 +229,7 @@ function walkWithParent(node, parent) {
   // Case B: a bare TemplateLiteral that looks like a prompt.
   if (node.type === 'TemplateLiteral' && (parent?.type !== 'ReturnStatement' && parent?.type !== 'ArrowFunctionExpression')) {
     const sample = templateLiteralText(node);
-    if (PROMPT_RE.test(sample) && STARTS_LIKE_PROMPT.test(sample.trim())) {
+    if (looksLikePromptText(sample)) {
       candidates.push({
         kind: 'template',
         node,
@@ -154,11 +262,11 @@ const PUBLIC_BASE_PROMPT_NAMES = new Map([
   ['frontier', null],
 ]);
 const basePromptNameBySymbol = new Map();
-for (const match of source.matchAll(/case"([^"]+)":I=([A-Za-z_$][\w$]*)\(/g)) {
+for (const match of source.matchAll(/case"([^"]+)":[A-Za-z_$][\w$]*=([A-Za-z_$][\w$]*)\(/g)) {
   const name = PUBLIC_BASE_PROMPT_NAMES.has(match[1]) ? PUBLIC_BASE_PROMPT_NAMES.get(match[1]) : match[1];
   if (name) basePromptNameBySymbol.set(match[2], name);
 }
-const defaultPrompt = source.match(/default:I=([A-Za-z_$][\w$]*)\(\);break/);
+const defaultPrompt = source.match(/default:[A-Za-z_$][\w$]*=([A-Za-z_$][\w$]*)\(\);break/);
 if (defaultPrompt) basePromptNameBySymbol.set(defaultPrompt[1], 'smart');
 
 // Evaluate each candidate by extracting its source slice and running it in a fresh vm
@@ -285,7 +393,7 @@ console.log(`Rendered ${rendered.length} prompts.`);
 const MIN_BODY_CHARS = 200;
 const substantial = rendered.filter((r) => {
   const nonEmptyLines = r.text.split('\n').filter((l) => l.trim().length > 0);
-  return r.text.length >= MIN_BODY_CHARS && nonEmptyLines.length >= 2;
+  return r.text.length >= MIN_BODY_CHARS && r.text.length <= MAX_PROMPT_CHARS && nonEmptyLines.length >= 2 && !isBundleLikeText(r.text);
 });
 console.log(`Dropped ${rendered.length - substantial.length} trivial prompts.`);
 
@@ -462,7 +570,7 @@ named.forEach((block) => {
   const body = [
     `# ${block.derivedName}`,
     '',
-    `_Source: \`dist/main.js:${block.line}\` (symbol \`${block.name}\`)_`,
+    `_Source: \`${sourceLabel}:${block.line}\` (symbol \`${block.name}\`)_`,
     '',
     block.text,
     '',
@@ -489,7 +597,7 @@ function replaceGeneratedCatalog(catalog) {
 }
 
 const catalog = [
-  `Source: ${path.relative(ROOT, BUNDLE)}`,
+  `Source: ${sourceLabel}`,
   `Package: ${pkg.name}@${pkg.version}`,
   '',
   'Notes:',

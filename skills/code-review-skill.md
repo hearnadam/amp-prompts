@@ -1,6 +1,6 @@
 # code-review-skill
 
-_Source: `dist/main.js:1040` (symbol `cUQ`)_
+_Source: `node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374:1804` (symbol `jdR`)_
 
 # Code Review Skill
 
