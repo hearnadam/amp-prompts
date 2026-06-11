@@ -61,8 +61,8 @@ The script writes:
 
 <!-- BEGIN GENERATED CATALOG -->
 
-Source: node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374
-Package: @ampcode/cli@0.0.1781102632-gaaab69
+Source: node_modules/@ampcode/cli-linux-x64/amp#embedded-js@94535715
+Package: @ampcode/cli@0.0.1781166336-g02cc1e
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -72,16 +72,12 @@ Notes:
 
 ## Prompts
 
-- [ai-assistant](prompts/ai-assistant.md) — line 2211
-- [subagent-summary](prompts/subagent-summary.md) — line 4476
 
 ## Subagents
 
-- [review](subagents/review.md) — line 1933
 
 ## Skills
 
-- [code-review-skill](skills/code-review-skill.md) — line 1804
 
 <!-- END GENERATED CATALOG -->
 
