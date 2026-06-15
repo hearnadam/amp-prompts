@@ -62,7 +62,7 @@ The script writes:
 <!-- BEGIN GENERATED CATALOG -->
 
 Source: node_modules/@ampcode/cli-linux-x64/amp#embedded-js@94535715
-Package: @ampcode/cli@0.0.1781424348-g140afa
+Package: @ampcode/cli@0.0.1781524018-g95694d
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
