@@ -11,7 +11,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@ampcode/cli": "0.0.1781424348-g140afa",
+    "@ampcode/cli": "0.0.1781524018-g95694d",
     "@babel/parser": "^7.29.3",
     "@babel/types": "^7.29.0"
   }
