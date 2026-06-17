@@ -11,6 +11,9 @@ Later `@ampcode/cli` builds expose built-in prompt identifiers such as
 not the prompt bodies this extractor was built to recover. Future bumps should
 be done manually only after the extractor is updated for the new prompt source.
 
+See [Prompt Construction After Embedded Prompt Bodies](docs/prompt-construction.md)
+for a reconstruction of the newer prompt assembly path.
+
 Tooling that extracts the system prompts baked into the
 [`@ampcode/cli`](https://www.npmjs.com/package/@ampcode/cli) CLI and
 writes human-readable Markdown files under `prompts/`, `subagents/`, and
