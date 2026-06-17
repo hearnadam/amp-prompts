@@ -1,5 +1,16 @@
 # amp-prompts
 
+## Update Status
+
+This repo is no longer updated automatically. It is pinned to
+`@ampcode/cli@0.0.1781102632-gaaab69`, the last checked version whose CLI
+bundle still contained extractable prompt bodies.
+
+Later `@ampcode/cli` builds expose built-in prompt identifiers such as
+`smart`, `deep`, `rush`, and `review`, plus `promptFragments` identifiers, but
+not the prompt bodies this extractor was built to recover. Future bumps should
+be done manually only after the extractor is updated for the new prompt source.
+
 Tooling that extracts the system prompts baked into the
 [`@ampcode/cli`](https://www.npmjs.com/package/@ampcode/cli) CLI and
 writes human-readable Markdown files under `prompts/`, `subagents/`, and
@@ -14,8 +25,8 @@ prompt is a template literal that often takes feature-flag arguments (e.g.
 `enableOracle`, `enableDiagnostics`) and references other minified identifiers
 like `R4`, `V6`, `AA`. This repo:
 
-1. Pins `@ampcode/cli` as a normal dependency so Dependabot can open a PR
-   each time a new bundle is published.
+1. Pins `@ampcode/cli` to the last version found to still embed prompt bodies:
+   `0.0.1781102632-gaaab69`.
 2. Parses the installed bundle with `@babel/parser`, locates every arrow
    function or template literal whose body looks like a prompt, rejects
    generated runtime bundles and trivial guard strings, and evaluates each
@@ -61,8 +72,8 @@ The script writes:
 
 <!-- BEGIN GENERATED CATALOG -->
 
-Source: node_modules/@ampcode/cli-linux-x64/amp#embedded-js@94535715
-Package: @ampcode/cli@0.0.1781601196-gacc35e
+Source: node_modules/@ampcode/cli-darwin-arm64/amp#embedded-js@62734374
+Package: @ampcode/cli@0.0.1781102632-gaaab69
 
 Notes:
 - Extracted by parsing the bundle with `@babel/parser`, locating prompt-producing arrow functions and template literals, then evaluating each in a `node:vm` sandbox.
@@ -72,38 +83,26 @@ Notes:
 
 ## Prompts
 
+- [ai-assistant](prompts/ai-assistant.md) — line 2211
+- [subagent-summary](prompts/subagent-summary.md) — line 4476
 
 ## Subagents
 
+- [review](subagents/review.md) — line 1933
 
 ## Skills
 
+- [code-review-skill](skills/code-review-skill.md) — line 1804
 
 <!-- END GENERATED CATALOG -->
-
-## Bumping Amp
-
-`@ampcode/cli` is pinned exactly in `package.json`. The workflow at
-`.github/workflows/update-amp.yml` runs daily, can also be triggered manually,
-asks the npm registry for the latest published version with `bun pm view`,
-updates the exact pin with `bun add`, runs `bun run extract`, and opens a PR
-labelled `amp-bump`.
-
-The workflow at `.github/workflows/regenerate-prompts.yml` also listens for
-`amp-bump` PRs that touch `package.json` / `bun.lock`, runs `bun run extract`,
-and pushes any regenerated prompt files back onto the same PR branch. This
-keeps manual amp-bump PRs and workflow-created amp-bump PRs consistent. It
-also enables auto-merge for `amp-bump` PRs opened by `github-actions[bot]` or
-`hearnadam`.
 
 ## Layout
 
 ```
 extract-amp-prompts.mjs       # the extractor
 package.json                  # pins @ampcode/cli
-.github/workflows/update-amp.yml
 .github/workflows/regenerate-prompts.yml
-prompts/                      # generated; refreshed by the workflow
+prompts/                      # generated prompt output
 subagents/                    # generated subagent prompts
 skills/                       # generated skill prompts
 README.md                     # includes the generated catalog
@@ -117,6 +116,8 @@ README.md                     # includes the generated catalog
 - A prompt whose body is shorter than ~200 characters is dropped on the
   assumption that it's a trivial guard message rather than a real prompt.
   Adjust `MIN_BODY_CHARS` if that turns out to filter too aggressively.
+- Extraction fails before rewriting generated files if no main prompt files are
+  found. This keeps a manual future bump from erasing the prompt catalog.
 - Free identifiers that map to functions (rather than strings) fall back to
   the permissive proxy. If a future Amp release hits a code path that
   actually needs the real function, the extractor will silently render
