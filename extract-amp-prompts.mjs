@@ -423,13 +423,6 @@ for (const block of substantial) {
 const duplicateCount = substantial.length - unique.length;
 console.log(`Dropped ${duplicateCount} duplicate prompts.`);
 
-fs.rmSync(PROMPTS_DIR, { recursive: true, force: true });
-fs.rmSync(SUBAGENTS_DIR, { recursive: true, force: true });
-fs.rmSync(SKILLS_DIR, { recursive: true, force: true });
-fs.mkdirSync(PROMPTS_DIR, { recursive: true });
-fs.mkdirSync(SUBAGENTS_DIR, { recursive: true });
-fs.mkdirSync(SKILLS_DIR, { recursive: true });
-
 function slug(s) {
   return s
     .toLowerCase()
@@ -557,6 +550,64 @@ function categoryFor(block) {
   if (['review', 'search', 'librarian', 'oracle'].includes(block.derivedName)) return 'subagent';
   return 'prompt';
 }
+
+function propertyKeyName(key) {
+  if (key?.type === 'Identifier') return key.name;
+  if (key?.type === 'StringLiteral') return key.value;
+  return null;
+}
+
+function collectPromptReferences() {
+  const systemPrompts = new Set();
+  const promptFragments = new Set();
+  walk(ast, (node) => {
+    if (node.type !== 'ObjectProperty' && node.type !== 'Property') return;
+    const key = propertyKeyName(node.key);
+    if (key === 'systemPrompt' && node.value?.type === 'StringLiteral') {
+      systemPrompts.add(node.value.value);
+    } else if (key === 'promptFragments' && node.value?.type === 'ArrayExpression') {
+      for (const item of node.value.elements ?? []) {
+        if (item?.type === 'StringLiteral') promptFragments.add(item.value);
+      }
+    }
+  });
+  return {
+    systemPrompts: [...systemPrompts].sort(),
+    promptFragments: [...promptFragments].sort(),
+  };
+}
+
+function assertNonEmptyExtraction() {
+  const categoryCounts = named.reduce((counts, block) => {
+    const category = categoryFor(block);
+    counts[category] = (counts[category] ?? 0) + 1;
+    return counts;
+  }, {});
+  if ((categoryCounts.prompt ?? 0) > 0) return;
+
+  const refs = collectPromptReferences();
+  const details = [
+    `Refusing to write a generated catalog with no main prompts from ${sourceLabel}.`,
+    `Retained artifacts: prompts=${categoryCounts.prompt ?? 0}, subagents=${categoryCounts.subagent ?? 0}, skills=${categoryCounts.skill ?? 0}.`,
+  ];
+  if (refs.systemPrompts.length > 0) {
+    details.push(`The bundle now exposes systemPrompt IDs instead of prompt bodies: ${refs.systemPrompts.join(', ')}.`);
+  }
+  if (refs.promptFragments.length > 0) {
+    details.push(`Referenced promptFragments: ${refs.promptFragments.join(', ')}.`);
+  }
+  details.push('Prompt bodies may have moved out of the CLI bundle; update the extractor before regenerating.');
+  throw new Error(details.join('\n'));
+}
+
+assertNonEmptyExtraction();
+
+fs.rmSync(PROMPTS_DIR, { recursive: true, force: true });
+fs.rmSync(SUBAGENTS_DIR, { recursive: true, force: true });
+fs.rmSync(SKILLS_DIR, { recursive: true, force: true });
+fs.mkdirSync(PROMPTS_DIR, { recursive: true });
+fs.mkdirSync(SUBAGENTS_DIR, { recursive: true });
+fs.mkdirSync(SKILLS_DIR, { recursive: true });
 
 const promptIndexEntries = [];
 const subagentIndexEntries = [];

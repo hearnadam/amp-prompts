@@ -1,4 +1,4 @@
-name: Regenerate prompts on amp bump
+name: Regenerate prompts on manual amp bump
 
 on:
   pull_request:
@@ -11,11 +11,9 @@ on:
       - package.json
       - bun.lock
       - .github/workflows/regenerate-prompts.yml
-      - .github/workflows/update-amp.yml
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   regenerate:
@@ -48,20 +46,3 @@ jobs:
           AMP_VERSION=$(bun -e "console.log(require('./node_modules/@ampcode/cli/package.json').version)")
           git commit -m "Regenerate prompts for @ampcode/cli@${AMP_VERSION}"
           git push
-
-      - name: Auto-approve amp bump PR
-        if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam')
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          gh pr review "$PR_NUMBER" --approve --body "Auto-approved: amp-bump PR after prompt regeneration check."
-
-      - name: Enable auto-merge
-        if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'hearnadam')
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
